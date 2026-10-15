@@ -1,0 +1,347 @@
+
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#174b38">
+  <title data-i18n="consumptionTitle">Strømforbrug | Energy Track</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+
+<body>
+  <div class="app-shell">
+    <header class="app-header">
+      <a class="brand" href="index.html" aria-label="Energy Track">
+        <div class="brand-mark">ϟ</div>
+        <div>
+          <p class="brand-name">Energy Track</p>
+          <p class="brand-tagline" data-i18n="tagline">Energi gjort enkelt</p>
+        </div>
+      </a>
+      <div class="header-actions">
+        <a class="icon-button" href="settings.html"
+           data-i18n-aria-label="settings" aria-label="Indstillinger">⚙</a>
+        <a class="icon-button" href="profile.html"
+           data-i18n-aria-label="profile" aria-label="Profil">♙</a>
+      </div>
+    </header>
+
+    <main>
+      <p class="eyebrow" data-i18n="energyOverview">ENERGI OVERBLIK</p>
+      <h1 class="page-heading" data-i18n="consumptionTitle">Dit strømforbrug</h1>
+      <p class="page-subtitle" data-i18n="consumptionIntro">
+        Følg dit forbrug med dine måleraflæsninger.
+      </p>
+
+      <section class="stats-grid">
+        <article class="stat-card">
+          <p class="stat-label" data-i18n="latest">Seneste måling</p>
+          <p class="stat-value"><span id="latestMeter">—</span></p>
+          <p class="stat-note" data-i18n="meterUnit">kWh · Målerstand</p>
+        </article>
+        <article class="stat-card">
+          <p class="stat-label" data-i18n="usage">Forbrug</p>
+          <p class="stat-value"><span id="latestUsage">—</span></p>
+          <p class="stat-note" data-i18n="sinceLastReading">
+            kWh · Siden forrige måling
+          </p>
+        </article>
+      </section>
+
+      <section class="panel">
+        <h2 class="panel-title" data-i18n="usageGraph">Dit forbrug over tid</h2>
+        <p class="panel-description" data-i18n="graphHelp">
+          Tilføj mindst to målinger for at se dit forbrug i grafen.
+        </p>
+        <div class="chart-container">
+          <canvas id="usageChart" height="230"></canvas>
+        </div>
+        <p class="message" id="chartMessage" role="status"></p>
+      </section>
+
+      <div class="main-grid">
+        <section class="panel">
+          <h2 class="panel-title" data-i18n="addReading">Tilføj måling</h2>
+          <p class="panel-description" data-i18n="readingInstructions">
+            Indtast tallene fra din elmåler. Brug samme enhed hver gang.
+          </p>
+
+          <form id="readingForm">
+            <div class="form-group">
+              <label for="readingDate" data-i18n="readingDate">Dato</label>
+              <input type="date" id="readingDate" required>
+            </div>
+
+            <div class="form-group">
+              <label for="meterValue" data-i18n="meterValue">Målerstand i kWh</label>
+              <input type="number" id="meterValue" min="0" step="any"
+                     data-i18n-placeholder="meterPlaceholder"
+                     placeholder="F.eks. 1250.5" required>
+            </div>
+
+            <button class="button button-primary button-full" type="submit">
+              + <span data-i18n="save">Gem måling</span>
+            </button>
+            <p class="message" id="readingMessage" role="status" aria-live="polite"></p>
+          </form>
+
+          <div class="empty-state" style="margin-top:20px">
+            <div class="empty-state-icon">ⓘ</div>
+            <h3 data-i18n="noMeter">Har du ikke en måleraflæsning?</h3>
+            <p data-i18n="billHelp">
+              Du kan indtaste et kendt forbrug fra din elregning.
+            </p>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2 class="panel-title" data-i18n="history">Målehistorik</h2>
+          <p class="panel-description" data-i18n="savedReadings">
+            Dine gemte måleraflæsninger.
+          </p>
+          <div class="list" id="readingList"></div>
+          <div class="empty-state" id="emptyReadings">
+            <div class="empty-state-icon">▤</div>
+            <h3 data-i18n="noReadings">Ingen målinger endnu</h3>
+            <p data-i18n="firstReading">
+              Tilføj din første måling for at komme i gang.
+            </p>
+          </div>
+        </section>
+      </div>
+
+      <p class="app-footer">
+        Energy Track · <span data-i18n="basedOnReadings">Baseret på dine egne målinger</span>
+      </p>
+      <p class="app-footer" data-i18n="version">Version 2.0</p>
+    </main>
+  </div>
+
+  <nav class="bottom-nav" data-i18n-aria-label="mainNavigation"
+       aria-label="Hovednavigation">
+    <div class="bottom-nav-inner">
+      <a class="nav-link" href="index.html">
+        <span class="nav-icon">⌂</span><span data-i18n="home">Hjem</span>
+      </a>
+      <a class="nav-link active" href="consumption.html">
+        <span class="nav-icon">▥</span><span data-i18n="consumption">Strømforbrug</span>
+      </a>
+      <a class="nav-link" href="devices.html">
+        <span class="nav-icon">⌁</span><span data-i18n="devices">Enheder</span>
+      </a>
+      <a class="nav-link" href="solar.html">
+        <span class="nav-icon">☀</span><span data-i18n="solar">Solceller</span>
+      </a>
+      <a class="nav-link" href="settings.html">
+        <span class="nav-icon">•••</span><span data-i18n="more">Mere</span>
+      </a>
+    </div>
+  </nav>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const form = document.getElementById("readingForm");
+      const dateInput = document.getElementById("readingDate");
+      const meterInput = document.getElementById("meterValue");
+      const message = document.getElementById("readingMessage");
+      const list = document.getElementById("readingList");
+      const empty = document.getElementById("emptyReadings");
+
+      dateInput.value = energyToday();
+
+      function getReadings() {
+        return energyRead(ENERGY_KEYS.readings, [])
+          .sort((a, b) => a.date.localeCompare(b.date));
+      }
+
+      function renderReadings() {
+        const readings = getReadings();
+        const usage = energyGetUsageBetweenReadings(readings);
+
+        list.replaceChildren();
+        empty.style.display = readings.length ? "none" : "block";
+
+        readings.slice().reverse().forEach(function (reading) {
+          const item = document.createElement("div");
+          item.className = "list-item";
+
+          const main = document.createElement("div");
+          main.className = "list-item-main";
+
+          const title = document.createElement("p");
+          title.className = "list-item-title";
+          title.textContent = reading.date;
+
+          const subtitle = document.createElement("p");
+          subtitle.className = "list-item-subtitle";
+          subtitle.textContent =
+            energyText("meterReading") + ": " +
+            energyFormatNumber(reading.meter) + " kWh";
+
+          main.append(title, subtitle);
+
+          const remove = document.createElement("button");
+          remove.className = "button button-danger";
+          remove.type = "button";
+          remove.textContent = energyText("delete");
+
+          remove.addEventListener("click", function () {
+            const updated = getReadings().filter(r => r.id !== reading.id);
+            energyWrite(ENERGY_KEYS.readings, updated);
+            message.textContent = energyText("readingDeleted");
+            renderReadings();
+          });
+
+          item.append(main, remove);
+          list.append(item);
+        });
+
+        const latest = readings[readings.length - 1];
+        const previous = readings[readings.length - 2];
+
+        document.getElementById("latestMeter").textContent =
+          latest ? energyFormatNumber(latest.meter) : "—";
+
+        document.getElementById("latestUsage").textContent =
+          latest && previous &&
+          Number(latest.meter) >= Number(previous.meter)
+            ? energyFormatNumber(Number(latest.meter) - Number(previous.meter))
+            : "—";
+
+        drawChart(usage);
+      }
+
+      function drawChart(usage) {
+        const canvas = document.getElementById("usageChart");
+        const context = canvas.getContext("2d");
+        const width = canvas.clientWidth || 300;
+        const height = 230;
+        const ratio = window.devicePixelRatio || 1;
+
+        canvas.width = width * ratio;
+        canvas.height = height * ratio;
+        context.setTransform(ratio, 0, 0, ratio, 0, 0);
+        context.clearRect(0, 0, width, height);
+
+        if (usage.length < 1) {
+          document.getElementById("chartMessage").textContent =
+            energyText("graphHelp");
+          return;
+        }
+
+        document.getElementById("chartMessage").textContent = "";
+
+        const left = 42;
+        const right = 12;
+        const top = 18;
+        const bottom = 34;
+        const graphWidth = width - left - right;
+        const graphHeight = height - top - bottom;
+        const maximum = Math.max(1, ...usage.map(point => point.kwh)) * 1.15;
+        const styles = getComputedStyle(document.body);
+        const borderColor = styles.getPropertyValue("--border").trim() || "#e4e9e5";
+        const mutedColor = styles.getPropertyValue("--muted").trim() || "#7b8780";
+
+        context.font = "11px Arial";
+        context.textAlign = "right";
+        context.textBaseline = "middle";
+
+        for (let i = 0; i <= 4; i++) {
+          const y = top + graphHeight * i / 4;
+          const value = maximum * (4 - i) / 4;
+
+          context.strokeStyle = borderColor;
+          context.lineWidth = 1;
+          context.beginPath();
+          context.moveTo(left, y);
+          context.lineTo(width - right, y);
+          context.stroke();
+
+          context.fillStyle = mutedColor;
+          context.fillText(energyFormatNumber(value, 1), left - 7, y);
+        }
+
+        const points = usage.map((point, index) => ({
+          x: usage.length === 1
+            ? left + graphWidth / 2
+            : left + graphWidth * index / (usage.length - 1),
+          y: top + graphHeight * (1 - point.kwh / maximum),
+          date: point.date
+        }));
+
+        if (points.length > 1) {
+          context.beginPath();
+          points.forEach((point, index) => {
+            if (index === 0) context.moveTo(point.x, point.y);
+            else context.lineTo(point.x, point.y);
+          });
+          context.strokeStyle = "#2e7958";
+          context.lineWidth = 3;
+          context.lineJoin = "round";
+          context.stroke();
+        }
+
+        points.forEach(function (point) {
+          context.beginPath();
+          context.arc(point.x, point.y, 4, 0, Math.PI * 2);
+          context.fillStyle = "#2e7958";
+          context.fill();
+
+          context.fillStyle = mutedColor;
+          context.textAlign = "center";
+          context.textBaseline = "top";
+          context.fillText(point.date.slice(5), point.x, height - bottom + 10);
+        });
+      }
+
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const date = dateInput.value;
+        const meter = Number(meterInput.value);
+
+        if (!date || meterInput.value.trim() === "" ||
+            !Number.isFinite(meter) || meter < 0) {
+          message.textContent = energyText("invalidReading");
+          return;
+        }
+
+        const readings = getReadings();
+        const existing = readings.find(r => r.date === date);
+        const oldMeter = existing ? existing.meter : null;
+
+        if (existing) {
+          existing.meter = meter;
+        } else {
+          readings.push({
+            id: String(Date.now()) + Math.random().toString(16).slice(2),
+            date: date,
+            meter: meter
+          });
+        }
+
+        readings.sort((a, b) => a.date.localeCompare(b.date));
+
+        for (let i = 1; i < readings.length; i++) {
+          if (Number(readings[i].meter) < Number(readings[i - 1].meter)) {
+            message.textContent = energyText("meterTooLow");
+
+            if (existing) existing.meter = oldMeter;
+            return;
+          }
+        }
+
+        energyWrite(ENERGY_KEYS.readings, readings);
+        message.textContent = energyText("readingSaved");
+        meterInput.value = "";
+        renderReadings();
+      });
+
+      renderReadings();
+      window.addEventListener("resize", renderReadings);
+    });
+  </script>
+</body>
+</html>

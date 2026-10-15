@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#174b38">
+  <title>Solceller | Energy Track</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+
+<body>
+  <div class="app-shell">
+    <header class="app-header">
+      <a class="brand" href="index.html">
+        <div class="brand-mark">ϟ</div>
+        <div>
+          <p class="brand-name">Energy Track</p>
+          <p class="brand-tagline" data-i18n="tagline">Energi gjort enkelt</p>
+        </div>
+      </a>
+
+      <div class="header-actions">
+        <a class="icon-button" href="settings.html"
+           aria-label="Indstillinger" data-i18n-aria-label="settings">⚙</a>
+        <a class="icon-button" href="profile.html"
+           aria-label="Profil" data-i18n-aria-label="profile">♙</a>
+      </div>
+    </header>
+
+    <main>
+      <!-- This heading now translates with the selected language -->
+      <p class="eyebrow" data-i18n="cleanEnergy">CLEAN ENERGY</p>
+
+      <h1 class="page-heading" data-i18n="solarTitle">Solceller</h1>
+
+      <p class="page-subtitle" data-i18n="solarIntro">
+        Følg den strøm, dine solceller producerer.
+      </p>
+
+      <section class="hero">
+        <p class="eyebrow" data-i18n="solarHeroLabel">SOLENERGI</p>
+
+        <h1>
+          <span id="totalProduction">0</span>
+          <span class="stat-unit">kWh</span>
+        </h1>
+
+        <p data-i18n="totalProductionLabel">
+          Samlet registreret solcelleproduktion
+        </p>
+
+        <span class="pill" id="solarStatus" data-i18n="solarOff">
+          Solcellefunktion slået fra
+        </span>
+      </section>
+
+      <section class="panel">
+        <div class="toggle-row">
+          <div>
+            <p class="toggle-title" data-i18n="solarFeature">
+              Solcellefunktion
+            </p>
+
+            <p class="toggle-description" data-i18n="solarFeatureHelp">
+              Aktivér visning af din registrerede solcelleproduktion.
+            </p>
+          </div>
+
+          <input type="checkbox" id="solarToggle"
+            aria-label="Aktivér solcellefunktion"
+            data-i18n-aria-label="solarFeature">
+        </div>
+
+        <p class="message" id="solarToggleMessage" role="status"></p>
+      </section>
+
+      <div class="main-grid">
+        <section class="panel">
+          <h2 class="panel-title" data-i18n="addProduction">
+            Tilføj produktion
+          </h2>
+
+          <p class="panel-description" data-i18n="productionHelp">
+            Indtast den producerede energi fra en kendt måling.
+          </p>
+
+          <form id="solarForm">
+            <div class="form-group">
+              <label for="solarDate" data-i18n="productionDate">
+                Produktionsdato
+              </label>
+              <input type="date" id="solarDate" required>
+            </div>
+
+            <div class="form-group">
+              <label for="solarKwh" data-i18n="productionValue">
+                Produktion i kWh
+              </label>
+
+              <input type="number" id="solarKwh" min="0" step="any"
+                placeholder="F.eks. 8.5"
+                data-i18n-placeholder="productionPlaceholder" required>
+            </div>
+
+            <button class="button button-primary button-full" type="submit">
+              + <span data-i18n="addProduction">Tilføj produktion</span>
+            </button>
+
+            <p class="message" id="solarMessage" role="status"></p>
+          </form>
+        </section>
+
+        <section class="panel">
+          <h2 class="panel-title" data-i18n="productionOverTime">
+            Produktion over tid
+          </h2>
+
+          <p class="panel-description" data-i18n="productionChartHelp">
+            Se dine registrerede produktionsmålinger.
+          </p>
+
+          <div class="chart-container">
+            <canvas id="solarChart" height="210"></canvas>
+          </div>
+
+          <p class="message" id="solarChartMessage" aria-live="polite"></p>
+        </section>
+      </div>
+
+      <section class="panel">
+        <h2 class="panel-title" data-i18n="history">Historik</h2>
+
+        <p class="panel-description" data-i18n="productionHistoryHelp">
+          Dine gemte produktionsmålinger.
+        </p>
+
+        <div class="list" id="solarList"></div>
+
+        <div class="empty-state" id="emptySolar">
+          <div class="empty-state-icon">☀</div>
+
+          <h3 data-i18n="noProduction">
+            Ingen produktion registreret endnu
+          </h3>
+
+          <p data-i18n="addFirstProduction">
+            Tilføj en måling for at følge din solcelleproduktion.
+          </p>
+        </div>
+      </section>
+
+      <p class="app-footer">
+        Energy Track ·
+        <span data-i18n="tagline">Energi gjort enkelt</span> ·
+        <span data-i18n="version">Version 2.0</span>
+      </p>
+    </main>
+  </div>
+
+  <nav class="bottom-nav" aria-label="Hovednavigation"
+       data-i18n-aria-label="mainNavigation">
+    <div class="bottom-nav-inner">
+      <a class="nav-link" href="index.html">
+        <span class="nav-icon">⌂</span>
+        <span data-i18n="home">Hjem</span>
+      </a>
+
+      <a class="nav-link" href="consumption.html">
+        <span class="nav-icon">▥</span>
+        <span data-i18n="consumption">Strømforbrug</span>
+      </a>
+
+      <a class="nav-link" href="devices.html">
+        <span class="nav-icon">⌁</span>
+        <span data-i18n="devices">Enheder</span>
+      </a>
+
+      <a class="nav-link active" href="solar.html">
+        <span class="nav-icon">☀</span>
+        <span data-i18n="solar">Solceller</span>
+      </a>
+
+      <a class="nav-link" href="settings.html">
+        <span class="nav-icon">•••</span>
+        <span data-i18n="more">Mere</span>
+      </a>
+    </div>
+  </nav>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const form = document.getElementById("solarForm");
+      const dateInput = document.getElementById("solarDate");
+      const kwhInput = document.getElementById("solarKwh");
+      const list = document.getElementById("solarList");
+      const empty = document.getElementById("emptySolar");
+      const message = document.getElementById("solarMessage");
+      const toggle = document.getElementById("solarToggle");
+      const status = document.getElementById("solarStatus");
+      const toggleMessage = document.getElementById("solarToggleMessage");
+      const chartMessage = document.getElementById("solarChartMessage");
+
+      const solarText = {
+        da: {
+          off: "Solcellefunktion slået fra",
+          on: "Solcellefunktion aktiveret",
+          enabled: "Solcellevisning er aktiveret.",
+          disabled: "Solcellevisning er deaktiveret.",
+          chartEmpty: "Dine målinger vises her, når du tilføjer produktion.",
+          saved: "Produktionen er gemt.",
+          invalid: "Indtast en gyldig dato og produktion.",
+          production: "Solcelleproduktion",
+          delete: "Slet"
+        },
+        en: {
+          off: "Solar feature is off",
+          on: "Solar feature is enabled",
+          enabled: "Solar production view is enabled.",
+          disabled: "Solar production view is disabled.",
+          chartEmpty: "Your measurements will appear here when you add production.",
+          saved: "Production saved.",
+          invalid: "Enter a valid date and production value.",
+          production: "Solar production",
+          delete: "Delete"
+        },
+        sv: {
+          off: "Solcellsfunktionen är avstängd",
+          on: "Solcellsfunktionen är aktiverad",
+          enabled: "Solcellsvisningen är aktiverad.",
+          disabled: "Solcellsvisningen är avstängd.",
+          chartEmpty: "Dina mätningar visas här när du lägger till produktion.",
+          saved: "Produktionen har sparats.",
+          invalid: "Ange ett giltigt datum och produktionsvärde.",
+          production: "Solcellsproduktion",
+          delete: "Ta bort"
+        },
+        de: {
+          off: "Solarfunktion ist ausgeschaltet",
+          on: "Solarfunktion ist aktiviert",
+          enabled: "Solaransicht wurde aktiviert.",
+          disabled: "Solaransicht wurde deaktiviert.",
+          chartEmpty: "Deine Messwerte erscheinen hier, sobald du eine Produktion hinzufügst.",
+          saved: "Produktion gespeichert.",
+          invalid: "Gib ein gültiges Datum und einen Produktionswert ein.",
+          production: "Solarproduktion",
+          delete: "Löschen"
+        },
+        no: {
+          off: "Solcellefunksjonen er slått av",
+          on: "Solcellefunksjonen er aktivert",
+          enabled: "Solcellevisningen er aktivert.",
+          disabled: "Solcellevisningen er deaktivert.",
+          chartEmpty: "Målingene dine vises her når du legger til produksjon.",
+          saved: "Produksjonen er lagret.",
+          invalid: "Skriv inn en gyldig dato og produksjonsverdi.",
+          production: "Solcelleproduksjon",
+          delete: "Slett"
+        }
+      };
+
+      function currentLanguage() {
+        const settings = typeof energyGetSettings === "function"
+          ? energyGetSettings()
+          : energyRead("energyTrackSettings", {});
+
+        const language = settings && settings.language
+          ? settings.language
+          : localStorage.getItem("energyTrackLanguage");
+
+        return solarText[language] ? language : "da";
+      }
+
+      function t(key) {
+        return solarText[currentLanguage()][key] ||
+          solarText.da[key] || key;
+      }
+
+      dateInput.value = energyToday();
+
+      function getSolarSettings() {
+        return energyRead(ENERGY_KEYS.solar + "Settings", {
+          active: false
+        });
+      }
+
+      function getProduction() {
+        const data = energyRead(ENERGY_KEYS.solar, []);
+        return Array.isArray(data) ? data : [];
+      }
+
+      function updateSolarToggle() {
+        const settings = getSolarSettings();
+        toggle.checked = settings.active === true;
+        status.textContent = toggle.checked ? t("on") : t("off");
+      }
+
+      function drawSolarChart(data) {
+        const canvas = document.getElementById("solarChart");
+        const ctx = canvas.getContext("2d");
+        const width = canvas.clientWidth || 300;
+        const height = 210;
+        const ratio = window.devicePixelRatio || 1;
+
+        canvas.width = width * ratio;
+        canvas.height = height * ratio;
+        ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+        ctx.clearRect(0, 0, width, height);
+
+        if (!data.length) {
+          chartMessage.textContent = t("chartEmpty");
+          return;
+        }
+
+        chartMessage.textContent = "";
+
+        const left = 38;
+        const right = 12;
+        const top = 15;
+        const bottom = 32;
+        const graphWidth = Math.max(1, width - left - right);
+        const graphHeight = height - top - bottom;
+        const values = data.map(item =>
+          Math.max(0, Number(item.kwh) || 0)
+        );
+        const max = Math.max(1, ...values) * 1.2;
+        const styles = getComputedStyle(document.body);
+        const borderColor =
+          styles.getPropertyValue("--border").trim() || "#e4e9e5";
+        const mutedColor =
+          styles.getPropertyValue("--muted").trim() || "#7b8780";
+
+        ctx.font = "11px Arial";
+        ctx.textAlign = "right";
+        ctx.textBaseline = "middle";
+
+        for (let i = 0; i <= 4; i++) {
+          const y = top + graphHeight * i / 4;
+
+          ctx.strokeStyle = borderColor;
+          ctx.beginPath();
+          ctx.moveTo(left, y);
+          ctx.lineTo(width - right, y);
+          ctx.stroke();
+
+          ctx.fillStyle = mutedColor;
+          ctx.fillText(
+            energyFormatNumber(max * (4 - i) / 4, 1),
+            left - 6,
+            y
+          );
+        }
+
+        data.forEach(function (item, i) {
+          const value = Math.max(0, Number(item.kwh) || 0);
+          const x = data.length === 1
+            ? left + graphWidth / 2
+            : left + graphWidth * i / (data.length - 1);
+
+          const barWidth = Math.min(
+            28,
+            graphWidth / Math.max(data.length, 2) * 0.55
+          );
+
+          const barHeight = graphHeight * value / max;
+          const y = top + graphHeight - barHeight;
+
+          ctx.fillStyle = "#2e7958";
+          ctx.beginPath();
+
+          if (typeof ctx.roundRect === "function") {
+            ctx.roundRect(
+              x - barWidth / 2,
+              y,
+              barWidth,
+              Math.max(2, barHeight),
+              5
+            );
+          } else {
+            ctx.rect(
+              x - barWidth / 2,
+              y,
+              barWidth,
+              Math.max(2, barHeight)
+            );
+          }
+
+          ctx.fill();
+          ctx.fillStyle = mutedColor;
+          ctx.textAlign = "center";
+          ctx.textBaseline = "top";
+          ctx.fillText(String(item.date).slice(5), x, height - bottom + 9);
+        });
+      }
+
+      function renderSolar() {
+        const data = getProduction().sort((a, b) =>
+          a.date.localeCompare(b.date)
+        );
+
+        const total = data.reduce(
+          (sum, item) => sum + (Number(item.kwh) || 0),
+          0
+        );
+
+        document.getElementById("totalProduction").textContent =
+          energyFormatNumber(total);
+
+        list.replaceChildren();
+        empty.style.display = data.length ? "none" : "block";
+
+        data.slice().reverse().forEach(function (item) {
+          const row = document.createElement("div");
+          row.className = "list-item";
+
+          const main = document.createElement("div");
+          main.className = "list-item-main";
+
+          const title = document.createElement("p");
+          title.className = "list-item-title";
+          title.textContent = item.date;
+
+          const subtitle = document.createElement("p");
+          subtitle.className = "list-item-subtitle";
+          subtitle.textContent = t("production");
+
+          main.append(title, subtitle);
+
+          const right = document.createElement("div");
+          right.style.display = "flex";
+          right.style.flexDirection = "column";
+          right.style.alignItems = "flex-end";
+          right.style.gap = "8px";
+
+          const value = document.createElement("span");
+          value.className = "list-item-value";
+          value.textContent = energyFormatNumber(item.kwh) + " kWh";
+
+          const remove = document.createElement("button");
+          remove.className = "button button-danger";
+          remove.type = "button";
+          remove.textContent = t("delete");
+
+          remove.addEventListener("click", function () {
+            energyWrite(
+              ENERGY_KEYS.solar,
+              getProduction().filter(entry => entry.id !== item.id)
+            );
+            renderSolar();
+          });
+
+          right.append(value, remove);
+          row.append(main, right);
+          list.append(row);
+        });
+
+        drawSolarChart(data);
+      }
+
+      toggle.addEventListener("change", function () {
+        energyWrite(ENERGY_KEYS.solar + "Settings", {
+          active: toggle.checked
+        });
+
+        updateSolarToggle();
+        toggleMessage.textContent = toggle.checked
+          ? t("enabled")
+          : t("disabled");
+      });
+
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const date = dateInput.value;
+        const kwh = Number(kwhInput.value);
+
+        if (!date || !Number.isFinite(kwh) || kwh < 0) {
+          message.textContent = t("invalid");
+          return;
+        }
+
+        const data = getProduction();
+        const existing = data.find(item => item.date === date);
+
+        if (existing) {
+          existing.kwh = kwh;
+        } else {
+          data.push({
+            id: String(Date.now()) +
+              Math.random().toString(16).slice(2),
+            date: date,
+            kwh: kwh
+          });
+        }
+
+        energyWrite(ENERGY_KEYS.solar, data);
+        message.textContent = t("saved");
+        kwhInput.value = "";
+        renderSolar();
+      });
+
+      updateSolarToggle();
+      renderSolar();
+
+      window.addEventListener("resize", renderSolar);
+
+      window.addEventListener("storage", function () {
+        updateSolarToggle();
+        renderSolar();
+      });
+    });
+  </script>
+</body>
+</html>

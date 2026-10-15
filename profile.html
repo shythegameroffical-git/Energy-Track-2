@@ -1,0 +1,224 @@
+
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Energy Track — Profil</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+
+    <header class="app-header">
+      <a class="brand" href="index.html">
+        <span class="brand-mark">ϟ</span>
+        <span>
+          <span class="brand-name">Energy Track</span>
+          <span class="brand-tagline" data-i18n="tagline">Energi gjort enkelt</span>
+        </span>
+      </a>
+
+      <a class="button button-secondary" href="settings.html">
+        <span data-i18n="openSettings">Åbn indstillinger</span>
+      </a>
+    </header>
+
+    <main>
+      <section class="hero">
+        <p class="eyebrow" data-i18n="more">Mere</p>
+        <h1 data-i18n="profileTitle">Din profil</h1>
+        <p data-i18n="profileIntro">
+          Tilpas din profil, så Energy Track passer til din husstand.
+        </p>
+      </section>
+
+      <section class="panel">
+        <div class="section-heading">
+          <div>
+            <h2 data-i18n="profileDetails">Profiloplysninger</h2>
+            <p data-i18n="profileHelp">Dine oplysninger gemmes på denne enhed.</p>
+          </div>
+          <span class="brand-mark">👤</span>
+        </div>
+
+        <form id="profileForm">
+          <div class="form-group">
+            <label for="profileName" data-i18n="name">Dit navn</label>
+            <input
+              id="profileName"
+              name="profileName"
+              type="text"
+              maxlength="60"
+              placeholder="Skriv dit navn"
+              data-i18n-placeholder="enterName"
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="homeType" data-i18n="homeType">Boligtype</label>
+            <select id="homeType" name="homeType">
+              <option value="house" data-i18n="house">Hus</option>
+              <option value="apartment" data-i18n="apartment">Lejlighed</option>
+              <option value="other" data-i18n="other">Andet</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="householdSize" data-i18n="householdSize">
+              Antal personer i husstanden
+            </label>
+            <select id="householdSize" name="householdSize">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6+</option>
+            </select>
+          </div>
+
+          <button
+            class="button button-primary"
+            type="submit"
+            data-i18n="saveProfile"
+          >
+            Gem profil
+          </button>
+
+          <p id="profileMessage" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <section class="card">
+        <div class="section-heading">
+          <div>
+            <h2 data-i18n="settings">Indstillinger</h2>
+            <p data-i18n="settingsTitle">Indstillinger</p>
+          </div>
+        </div>
+
+        <a
+          class="button button-secondary"
+          href="settings.html"
+          data-i18n="openSettings"
+        >
+          Åbn indstillinger
+        </a>
+      </section>
+    </main>
+
+    <nav class="bottom-nav">
+      <div class="bottom-nav-inner">
+        <a class="nav-link" href="index.html">
+          <span class="nav-icon">⌂</span>
+          <span data-i18n="home">Hjem</span>
+        </a>
+
+        <a class="nav-link" href="consumption.html">
+          <span class="nav-icon">▥</span>
+          <span data-i18n="consumption">Forbrug</span>
+        </a>
+
+        <a class="nav-link" href="devices.html">
+          <span class="nav-icon">▤</span>
+          <span data-i18n="devices">Enheder</span>
+        </a>
+
+        <a class="nav-link" href="solar.html">
+          <span class="nav-icon">☀</span>
+          <span data-i18n="solar">Solenergi</span>
+        </a>
+
+        <a class="nav-link active" href="profile.html">
+          <span class="nav-icon">●</span>
+          <span data-i18n="profile">Profil</span>
+        </a>
+      </div>
+    </nav>
+
+    <footer class="app-footer">
+      Energy Track · Version 2.0
+    </footer>
+
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const form = document.getElementById("profileForm");
+      const nameInput = document.getElementById("profileName");
+      const homeType = document.getElementById("homeType");
+      const householdSize = document.getElementById("householdSize");
+      const message = document.getElementById("profileMessage");
+      const profileKey = "energyTrackProfile";
+
+      const profileMessages = {
+        da: {
+          saved: "Profilen er gemt på denne enhed.",
+          error: "Kunne ikke gemme profilen. Prøv igen."
+        },
+        en: {
+          saved: "Your profile has been saved on this device.",
+          error: "Could not save your profile. Please try again."
+        },
+        sv: {
+          saved: "Din profil har sparats på den här enheten.",
+          error: "Det gick inte att spara profilen. Försök igen."
+        },
+        de: {
+          saved: "Dein Profil wurde auf diesem Gerät gespeichert.",
+          error: "Das Profil konnte nicht gespeichert werden. Bitte versuche es erneut."
+        },
+        no: {
+          saved: "Profilen din er lagret på denne enheten.",
+          error: "Kunne ikke lagre profilen. Prøv igjen."
+        }
+      };
+
+      function getLanguage() {
+        try {
+          const settings = JSON.parse(
+            localStorage.getItem("energyTrackSettings") || "{}"
+          );
+
+          return profileMessages[settings.language]
+            ? settings.language
+            : "da";
+        } catch (error) {
+          return "da";
+        }
+      }
+
+      try {
+        const saved = JSON.parse(
+          localStorage.getItem(profileKey) || "{}"
+        );
+
+        nameInput.value = saved.name || "";
+        homeType.value = saved.homeType || "house";
+        householdSize.value = String(saved.householdSize || "1");
+      } catch (error) {
+        console.log("Could not load saved profile.");
+      }
+
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const profile = {
+          name: nameInput.value.trim(),
+          homeType: homeType.value,
+          householdSize: householdSize.value
+        };
+
+        try {
+          localStorage.setItem(profileKey, JSON.stringify(profile));
+          message.textContent = profileMessages[getLanguage()].saved;
+        } catch (error) {
+          message.textContent = profileMessages[getLanguage()].error;
+        }
+      });
+    });
+  </script>
+</body>
+</html>

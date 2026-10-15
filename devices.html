@@ -1,0 +1,340 @@
+
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#174b38">
+  <title data-i18n="devicesTitle">Enheder | Energy Track</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="app-header">
+      <a class="brand" href="index.html">
+        <div class="brand-mark">ϟ</div>
+        <div>
+          <p class="brand-name">Energy Track</p>
+          <p class="brand-tagline" data-i18n="tagline">Energi gjort enkelt</p>
+        </div>
+      </a>
+      <div class="header-actions">
+        <a class="icon-button" href="settings.html"
+           data-i18n-aria-label="settings" aria-label="Indstillinger">⚙</a>
+        <a class="icon-button" href="profile.html"
+           data-i18n-aria-label="profile" aria-label="Profil">♙</a>
+      </div>
+    </header>
+
+    <main>
+      <p class="eyebrow" data-i18n="yourHome">DIT HJEM</p>
+      <h1 class="page-heading" data-i18n="devicesTitle">Dine enheder</h1>
+      <p class="page-subtitle" data-i18n="devicesIntro">
+        Hold styr på dine elektriske apparater.
+      </p>
+
+      <section class="stats-grid">
+        <article class="stat-card">
+          <p class="stat-label" data-i18n="totalDevices">Antal enheder</p>
+          <p class="stat-value" id="deviceCount">0</p>
+          <p class="stat-note" data-i18n="savedAppliances">Gemte apparater</p>
+        </article>
+
+        <article class="stat-card">
+          <p class="stat-label" data-i18n="dailyEstimate">Anslået dagligt forbrug</p>
+          <p class="stat-value"><span id="dailyTotal">0</span></p>
+          <p class="stat-note">
+            kWh <span data-i18n="perDayEstimate">pr. dag · Estimat</span>
+          </p>
+        </article>
+      </section>
+
+      <div class="main-grid">
+        <section class="panel">
+          <h2 class="panel-title" data-i18n="addDevice">Tilføj enhed</h2>
+          <p class="panel-description" data-i18n="deviceFormHelp">
+            Registrér et apparat for at beregne dets omtrentlige forbrug.
+          </p>
+
+          <form id="deviceForm">
+            <div class="form-group">
+              <label for="deviceName" data-i18n="deviceName">Enhedens navn</label>
+              <input id="deviceName" type="text" maxlength="70"
+                data-i18n-placeholder="deviceNamePlaceholder"
+                placeholder="F.eks. Vaskemaskine" required>
+            </div>
+
+            <div class="form-group">
+              <label for="devicePower" data-i18n="power">Effekt i watt</label>
+              <input id="devicePower" type="number" min="1" max="100000"
+                step="any" data-i18n-placeholder="powerPlaceholder"
+                placeholder="F.eks. 2000" required>
+            </div>
+
+            <div class="form-group">
+              <label for="deviceHours" data-i18n="hours">Timer om dagen</label>
+              <input id="deviceHours" type="number" min="0" max="24"
+                step="0.25" data-i18n-placeholder="hoursPlaceholder"
+                placeholder="F.eks. 1.5" required>
+            </div>
+
+            <button class="button button-primary button-full" type="submit">
+              + <span data-i18n="addDevice">Tilføj enhed</span>
+            </button>
+            <p class="message" id="deviceMessage" role="status"></p>
+          </form>
+        </section>
+
+        <section class="panel">
+          <h2 class="panel-title" data-i18n="devicesTitle">Dine enheder</h2>
+          <p class="panel-description" data-i18n="manageDevicesHelp">
+            Se og administrér dine gemte apparater.
+          </p>
+
+          <input
+            class="search-input"
+            id="deviceSearch"
+            type="search"
+            data-i18n-placeholder="searchDevices"
+            data-i18n-aria-label="searchDevices"
+            placeholder="Søg efter enheder"
+            aria-label="Søg efter enheder">
+
+          <div class="list" id="deviceList"></div>
+
+          <div class="empty-state" id="emptyDevices">
+            <div class="empty-state-icon">⌁</div>
+            <h3 data-i18n="noDevices">Ingen enheder endnu</h3>
+            <p data-i18n="addFirstDevice">
+              Tilføj en enhed for at komme i gang.
+            </p>
+          </div>
+        </section>
+      </div>
+
+      <p class="app-footer">
+        Energy Track ·
+        <span data-i18n="deviceEstimateNote">
+          Forbruget er beregnet ud fra effekt og daglig brug
+        </span>
+      </p>
+    </main>
+  </div>
+
+  <nav class="bottom-nav" data-i18n-aria-label="mainNavigation"
+       aria-label="Hovedmenu">
+    <div class="bottom-nav-inner">
+      <a class="nav-link" href="index.html">
+        <span class="nav-icon">⌂</span>
+        <span data-i18n="home">Hjem</span>
+      </a>
+      <a class="nav-link" href="consumption.html">
+        <span class="nav-icon">▥</span>
+        <span data-i18n="consumption">Strømforbrug</span>
+      </a>
+      <a class="nav-link active" href="devices.html">
+        <span class="nav-icon">⌁</span>
+        <span data-i18n="devices">Enheder</span>
+      </a>
+      <a class="nav-link" href="solar.html">
+        <span class="nav-icon">☀</span>
+        <span data-i18n="solar">Solceller</span>
+      </a>
+      <a class="nav-link" href="settings.html">
+        <span class="nav-icon">•••</span>
+        <span data-i18n="more">Mere</span>
+      </a>
+    </div>
+  </nav>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const form = document.getElementById("deviceForm");
+      const nameInput = document.getElementById("deviceName");
+      const powerInput = document.getElementById("devicePower");
+      const hoursInput = document.getElementById("deviceHours");
+      const searchInput = document.getElementById("deviceSearch");
+      const list = document.getElementById("deviceList");
+      const empty = document.getElementById("emptyDevices");
+      const message = document.getElementById("deviceMessage");
+
+      const deviceText = {
+        da: {
+          noMatch: "Ingen match",
+          tryAnother: "Prøv at søge efter et andet navn.",
+          checkFields: "Kontrollér navn, effekt og timer.",
+          saved: "Enheden er gemt.",
+          watts: "W",
+          hoursPerDay: "timer/dag"
+        },
+        en: {
+          noMatch: "No matches",
+          tryAnother: "Try searching for a different name.",
+          checkFields: "Check the name, power and hours.",
+          saved: "Device saved.",
+          watts: "W",
+          hoursPerDay: "hours/day"
+        },
+        sv: {
+          noMatch: "Inga träffar",
+          tryAnother: "Försök söka efter ett annat namn.",
+          checkFields: "Kontrollera namn, effekt och timmar.",
+          saved: "Enheten har sparats.",
+          watts: "W",
+          hoursPerDay: "timmar/dag"
+        },
+        de: {
+          noMatch: "Keine Treffer",
+          tryAnother: "Suche nach einem anderen Namen.",
+          checkFields: "Überprüfe Name, Leistung und Stunden.",
+          saved: "Gerät gespeichert.",
+          watts: "W",
+          hoursPerDay: "Stunden/Tag"
+        },
+        no: {
+          noMatch: "Ingen treff",
+          tryAnother: "Prøv å søke etter et annet navn.",
+          checkFields: "Kontroller navn, effekt og timer.",
+          saved: "Enheten er lagret.",
+          watts: "W",
+          hoursPerDay: "timer/dag"
+        }
+      };
+
+      function deviceMessageText(key) {
+        const language = getEnergyLanguage();
+        return deviceText[language]?.[key] || deviceText.da[key];
+      }
+
+      function getDevices() {
+        const devices = energyRead(ENERGY_KEYS.devices, []);
+        return Array.isArray(devices) ? devices : [];
+      }
+
+      function deviceDailyUse(device) {
+        return Number(device.power) * Number(device.hours) / 1000;
+      }
+
+      function renderDevices() {
+        const devices = getDevices();
+        const search = searchInput.value.trim().toLocaleLowerCase();
+
+        const total = devices.reduce(
+          (sum, device) => sum + deviceDailyUse(device), 0
+        );
+
+        document.getElementById("deviceCount").textContent = devices.length;
+        document.getElementById("dailyTotal").textContent =
+          energyFormatNumber(total);
+
+        list.replaceChildren();
+
+        const filtered = devices.filter(device =>
+          String(device.name).toLocaleLowerCase().includes(search)
+        );
+
+        empty.style.display = filtered.length ? "none" : "block";
+
+        if (!filtered.length && search) {
+          empty.querySelector("h3").textContent =
+            deviceMessageText("noMatch");
+          empty.querySelector("p").textContent =
+            deviceMessageText("tryAnother");
+        } else {
+          empty.querySelector("h3").textContent = energyText("noDevices");
+          empty.querySelector("p").textContent = energyText("addFirstDevice");
+        }
+
+        filtered.forEach(function (device) {
+          const item = document.createElement("div");
+          item.className = "list-item";
+
+          const main = document.createElement("div");
+          main.className = "list-item-main";
+
+          const title = document.createElement("p");
+          title.className = "list-item-title";
+          title.textContent = device.name;
+
+          const subtitle = document.createElement("p");
+          subtitle.className = "list-item-subtitle";
+          subtitle.textContent =
+            energyFormatNumber(device.power, 1) + " " +
+            deviceMessageText("watts") + " · " +
+            energyFormatNumber(device.hours, 2) + " " +
+            deviceMessageText("hoursPerDay");
+
+          main.append(title, subtitle);
+
+          const right = document.createElement("div");
+          right.style.display = "flex";
+          right.style.flexDirection = "column";
+          right.style.alignItems = "flex-end";
+          right.style.gap = "8px";
+
+          const value = document.createElement("span");
+          value.className = "list-item-value";
+          value.textContent =
+            energyFormatNumber(deviceDailyUse(device)) + " kWh";
+
+          const remove = document.createElement("button");
+          remove.type = "button";
+          remove.className = "button button-danger";
+          remove.textContent = energyText("delete");
+
+          remove.addEventListener("click", function () {
+            const updated = getDevices().filter(d => d.id !== device.id);
+            energyWrite(ENERGY_KEYS.devices, updated);
+            renderDevices();
+          });
+
+          right.append(value, remove);
+          item.append(main, right);
+          list.append(item);
+        });
+      }
+
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const name = nameInput.value.trim();
+        const power = Number(powerInput.value);
+        const hours = Number(hoursInput.value);
+
+        if (
+          !name ||
+          !Number.isFinite(power) ||
+          power <= 0 ||
+          power > 100000 ||
+          !Number.isFinite(hours) ||
+          hours < 0 ||
+          hours > 24
+        ) {
+          message.textContent = deviceMessageText("checkFields");
+          return;
+        }
+
+        const devices = getDevices();
+
+        devices.push({
+          id: String(Date.now()) + Math.random().toString(16).slice(2),
+          name: name,
+          power: power,
+          hours: hours
+        });
+
+        energyWrite(ENERGY_KEYS.devices, devices);
+
+        message.textContent = deviceMessageText("saved");
+        form.reset();
+        renderDevices();
+      });
+
+      searchInput.addEventListener("input", renderDevices);
+
+      renderDevices();
+    });
+  </script>
+</body>
+</html>

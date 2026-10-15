@@ -1,0 +1,192 @@
+
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#174b38">
+<meta name="apple-mobile-web-app-capable" content="yes">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#174b38">
+  <title>Energy Track</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+
+<body>
+  <div class="app-shell">
+
+    <header class="app-header">
+      <a class="brand" href="index.html" aria-label="Energy Track">
+        <div class="brand-mark">ϟ</div>
+        <div>
+          <p class="brand-name">Energy Track</p>
+          <p class="brand-tagline" data-i18n="tagline">Energi gjort enkelt</p>
+        </div>
+      </a>
+
+      <div class="header-actions">
+        <a class="icon-button" href="settings.html"
+           data-i18n-aria-label="settings" aria-label="Indstillinger">⚙</a>
+        <a class="icon-button" href="profile.html"
+           data-i18n-aria-label="profile" aria-label="Profil">♙</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <p class="eyebrow">ENERGY TRACK</p>
+        <h1 data-i18n="welcome">Velkommen til Energy Track</h1>
+        <p data-i18n="intro">
+          Få et bedre overblik over dit strømforbrug.
+        </p>
+        <a class="button button-primary" href="consumption.html">
+          <span data-i18n="viewConsumption">Se strømforbrug</span> →
+        </a>
+      </section>
+
+      <div class="section-heading">
+        <h2 data-i18n="overview">Dit energioverblik</h2>
+      </div>
+
+      <section class="stats-grid">
+        <article class="stat-card">
+          <p class="stat-label" data-i18n="today">Dagens forbrug</p>
+          <p class="stat-value">
+            <span id="homeUsage">—</span>
+            <span class="stat-unit">kWh</span>
+          </p>
+          <p class="stat-note" id="homeUsageNote" data-i18n="basedOnReadings">
+            Baseret på dine egne målinger
+          </p>
+        </article>
+
+        <article class="stat-card">
+          <p class="stat-label" data-i18n="totalDevices">Antal enheder</p>
+          <p class="stat-value" id="homeDeviceCount">0</p>
+          <p class="stat-note" data-i18n="registeredDevices">
+            Gemte apparater
+          </p>
+        </article>
+      </section>
+
+      <div class="section-heading">
+        <h2 data-i18n="quickLinks">Dit energioverblik</h2>
+      </div>
+
+      <section class="card-grid">
+        <article class="card">
+          <div class="card-icon">▥</div>
+          <h3 data-i18n="consumptionTitle">Dit strømforbrug</h3>
+          <p class="card-description" data-i18n="consumptionIntro">
+            Følg dit forbrug med dine måleraflæsninger.
+          </p>
+          <a class="card-link" href="consumption.html">
+            <span data-i18n="viewConsumption">Se strømforbrug</span> →
+          </a>
+        </article>
+
+        <article class="card">
+          <div class="card-icon">⌁</div>
+          <h3 data-i18n="devicesTitle">Dine enheder</h3>
+          <p class="card-description" data-i18n="devicesIntro">
+            Hold styr på dine elektriske apparater.
+          </p>
+          <a class="card-link" href="devices.html">
+            <span data-i18n="manageDevices">Administrer enheder</span> →
+          </a>
+        </article>
+
+        <article class="card">
+          <div class="card-icon">☀</div>
+          <h3 data-i18n="solarTitle">Solceller</h3>
+          <p class="card-description" data-i18n="solarIntro">
+            Følg den strøm, dine solceller producerer.
+          </p>
+          <a class="card-link" href="solar.html">
+            <span data-i18n="viewSolar">Se solcelleproduktion</span> →
+          </a>
+        </article>
+
+        <article class="card">
+          <div class="card-icon">⚙</div>
+          <h3 data-i18n="settingsTitle">Indstillinger</h3>
+          <p class="card-description" data-i18n="settingsDescription">
+            Vælg sprog og tilpas appens udseende.
+          </p>
+          <a class="card-link" href="settings.html">
+            <span data-i18n="settings">Indstillinger</span> →
+          </a>
+        </article>
+      </section>
+
+      <p class="app-footer">
+        Energy Track · <span data-i18n="tagline">Energi gjort enkelt</span>
+      </p>
+      <p class="app-footer" data-i18n="version">Version 2.0</p>
+    </main>
+  </div>
+
+  <nav class="bottom-nav" data-i18n-aria-label="mainNavigation"
+       aria-label="Hovednavigation">
+    <div class="bottom-nav-inner">
+      <a class="nav-link active" href="index.html">
+        <span class="nav-icon">⌂</span>
+        <span data-i18n="home">Hjem</span>
+      </a>
+      <a class="nav-link" href="consumption.html">
+        <span class="nav-icon">▥</span>
+        <span data-i18n="consumption">Strømforbrug</span>
+      </a>
+      <a class="nav-link" href="devices.html">
+        <span class="nav-icon">⌁</span>
+        <span data-i18n="devices">Enheder</span>
+      </a>
+      <a class="nav-link" href="solar.html">
+        <span class="nav-icon">☀</span>
+        <span data-i18n="solar">Solceller</span>
+      </a>
+      <a class="nav-link" href="settings.html">
+        <span class="nav-icon">•••</span>
+        <span data-i18n="more">Mere</span>
+      </a>
+    </div>
+  </nav>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const readings = energyRead(ENERGY_KEYS.readings, []);
+      const devices = energyRead(ENERGY_KEYS.devices, []);
+
+      const usageElement = document.getElementById("homeUsage");
+      const deviceElement = document.getElementById("homeDeviceCount");
+      const noteElement = document.getElementById("homeUsageNote");
+
+      if (deviceElement) {
+        deviceElement.textContent = devices.length;
+      }
+
+      if (readings.length >= 2) {
+        const sorted = [...readings].sort((a, b) =>
+          a.date.localeCompare(b.date)
+        );
+
+        const latest = sorted[sorted.length - 1];
+        const previous = sorted[sorted.length - 2];
+        const usage = Number(latest.meter) - Number(previous.meter);
+
+        if (usage >= 0 && usageElement) {
+          usageElement.textContent = energyFormatNumber(usage);
+
+          if (noteElement) {
+            noteElement.textContent =
+              energyText("latest") + ": " + latest.date;
+          }
+        }
+      } else if (usageElement) {
+        usageElement.textContent = "—";
+      }
+    });
+  </script>
+</body>
+</html>

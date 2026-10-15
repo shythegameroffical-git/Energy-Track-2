@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#174b38">
+  <title>Energy Track — Indstillinger</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+
+<body>
+  <div class="app-shell">
+
+    <header class="app-header">
+      <a class="brand" href="index.html">
+        <span class="brand-mark">ϟ</span>
+        <span>
+          <span class="brand-name">Energy Track</span>
+          <span class="brand-tagline" data-i18n="tagline">
+            Energi gjort enkelt
+          </span>
+        </span>
+      </a>
+
+      <a class="button button-secondary" href="profile.html">
+        <span data-i18n="profile">Profil</span>
+      </a>
+    </header>
+
+    <main>
+      <section class="hero">
+        <p class="eyebrow" data-i18n="more">Mere</p>
+
+        <h1 data-i18n="settingsTitle">Indstillinger</h1>
+
+        <p data-i18n="settingsIntro">
+          Tilpas Energy Track, så appen passer til dig.
+        </p>
+      </section>
+
+      <!-- LANGUAGE -->
+      <section class="panel">
+        <div class="section-heading">
+          <div>
+            <h2 data-i18n="language">Sprog</h2>
+            <p data-i18n="chooseLanguage">
+              Vælg det sprog, du vil bruge.
+            </p>
+          </div>
+          <span class="brand-mark">文</span>
+        </div>
+
+        <div class="form-group">
+          <label for="languageSelect" data-i18n="language">Sprog</label>
+
+          <select id="languageSelect" name="languageSelect">
+            <option value="da">Dansk</option>
+            <option value="en">English</option>
+            <option value="sv">Svenska</option>
+            <option value="de">Deutsch</option>
+            <option value="no">Norsk</option>
+          </select>
+        </div>
+      </section>
+
+      <!-- APPEARANCE -->
+      <section class="panel">
+        <div class="section-heading">
+          <div>
+            <h2 data-i18n="appearance">Udseende</h2>
+            <p data-i18n="appearanceHelp">
+              Vælg, hvordan appen skal se ud.
+            </p>
+          </div>
+          <span class="brand-mark">◐</span>
+        </div>
+
+        <div class="toggle-row">
+          <div>
+            <strong data-i18n="darkMode">Mørk tilstand</strong>
+            <p data-i18n="darkModeHelp">
+              Brug en mørk baggrund i appen.
+            </p>
+          </div>
+
+          <label class="switch">
+            <input id="darkModeToggle" type="checkbox">
+            <span class="switch-slider"></span>
+          </label>
+        </div>
+      </section>
+
+      <!-- NOTIFICATIONS -->
+      <section class="panel">
+        <div class="section-heading">
+          <div>
+            <h2 data-i18n="notifications">Notifikationer</h2>
+            <p data-i18n="notificationsHelp">
+              Slå notifikationsindstillingen til eller fra.
+            </p>
+          </div>
+          <span class="brand-mark">♧</span>
+        </div>
+
+        <div class="toggle-row">
+          <div>
+            <strong data-i18n="notifications">Notifikationer</strong>
+            <p data-i18n="notificationsHelp">
+              Slå notifikationsindstillingen til eller fra.
+            </p>
+          </div>
+
+          <label class="switch">
+            <input id="notificationsToggle" type="checkbox">
+            <span class="switch-slider"></span>
+          </label>
+        </div>
+      </section>
+
+      <!-- ABOUT ENERGY TRACK -->
+      <section class="card">
+        <h2>Energy Track</h2>
+
+        <p data-i18n="settingsAbout">
+          Din energi samlet ét sted.
+        </p>
+
+        <p>
+          <strong data-i18n="version">Version 2.0</strong>
+        </p>
+      </section>
+    </main>
+
+    <!-- NAVIGATION -->
+    <nav class="bottom-nav"
+         aria-label="Hovednavigation"
+         data-i18n-aria-label="mainNavigation">
+
+      <div class="bottom-nav-inner">
+        <a class="nav-link" href="index.html">
+          <span class="nav-icon">⌂</span>
+          <span data-i18n="home">Hjem</span>
+        </a>
+
+        <a class="nav-link" href="consumption.html">
+          <span class="nav-icon">▥</span>
+          <span data-i18n="consumption">Strømforbrug</span>
+        </a>
+
+        <a class="nav-link" href="devices.html">
+          <span class="nav-icon">▤</span>
+          <span data-i18n="devices">Enheder</span>
+        </a>
+
+        <a class="nav-link" href="solar.html">
+          <span class="nav-icon">☀</span>
+          <span data-i18n="solar">Solceller</span>
+        </a>
+
+        <a class="nav-link active" href="settings.html">
+          <span class="nav-icon">⚙</span>
+          <span data-i18n="settings">Indstillinger</span>
+        </a>
+      </div>
+    </nav>
+
+    <footer class="app-footer">
+      Energy Track · <span data-i18n="version">Version 2.0</span>
+    </footer>
+
+  </div>
+</body>
+</html>
